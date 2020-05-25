@@ -1,13 +1,15 @@
 # app.py
 from flask import Flask           # import flask
-import sensor
+#import sensor
 
 app = Flask(__name__)             # create an app instance
 
 @app.route("/")                   # at the end point /
 def hello():                      # call method hello
 	
-	media, hist_values = sensor.get_value_distance(3)
+	#media, hist_values = sensor.get_value_distance(3)
+	media = 35
+	hist_values = [20, 50, 43]
 	if media < 25:
 		color = "green"
 	if media > 25:

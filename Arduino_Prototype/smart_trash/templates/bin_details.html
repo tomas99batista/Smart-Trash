@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4">
+      <h1 class="display-4" style="text-align:center;">{{ bin.name }}</h1>
+      {% if bin_status %}
+        <br>
+        <h3 class="display-10" style="text-align:center;"><b>LOTAÇÃO: </b><span id="bin_status_span">{{ bin_status }}%</span></h1>
+      {% endif %}
+    </header>
+
+    <script>
+        var span = document.getElementById('bin_status_span');
+        var status = {{ bin_status }};
+        console.log(status)
+
+        if (status < 25){
+            span.style.backgroundColor = "green";
+        } if (status >= 25){
+            span.style.backgroundColor = "yellow";
+        } if (status >= 75){
+            span.style.backgroundColor = "red";            
+        }
+    </script>
+
+    {% if bin_details %}
+        <center><h2><b>Registos:</b><h2><hr></center>
+    {% endif %}
+
+    <!-- Page Features -->
+    <div class="row">
+
+    {% if bin_details %}
+        {% for detail in bin_details %}
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h4 class="card-title text-center"><b>ID Registo: {{ detail.id_regist }}</b></h4>
+                <p class="card-text">
+                    <ul>
+                        <li><h5><b>{{ detail.occupation_value }}%</b></h5></li>
+                        <li><h5>{{ detail.timestamp }}</h5></li>
+                    </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-lg-12 col-md-6 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h4 class="card-title text-center">Sem registos, yet.</h4>
+              </div>
+            </div>
+        </div>
+    {% endif %}
+    
+
+    </div>
+    <!-- /.row -->
+
+{% endblock content %}
+
