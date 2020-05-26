@@ -31,8 +31,12 @@ def update_bin(request):
     # Aqui vai o raspy trabalhar boyyyyyy
     bin_id = request.POST.get("bin_id", "")
     try:
-        occupation_value = sensor.get_value_distance(3)
+        sensor_occupation_value = sensor.get_value_distance(3)
         trash_bin = Bin.objects.get(bin_id=bin_id)
+        print(sensor_occupation_value, trash_bin)
+        
+        Regist(occupation_value=sensor_occupation_value, bin=trash_bin).save()
+
         return redirect("bin_detail", id=bin_id)
     except Exception as e:
         return HttpResponse('<h1>Sensor not connected!</h1>')
