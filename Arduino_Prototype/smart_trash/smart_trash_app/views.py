@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from .models import *
+from . import sensor
 # Create your views here.
 
 def index(request):
@@ -24,3 +26,13 @@ def bin_by_id(request, id):
                 'bin_status':bin_status}
 
     return render(request, 'bin_details.html', context=context)
+
+def update_bin(request):
+    # Aqui vai o raspy trabalhar boyyyyyy
+    bin_id = request.POST.get("bin_id", "")
+    try:
+        occupation_value = sensor.get_value_distance(3)
+        trash_bin = Bin.objects.get(bin_id=bin_id)
+        return redirect("bin_detail", id=bin_id)
+    except Exception as e:
+        return HttpResponse('<h1>Sensor not connected!</h1>')

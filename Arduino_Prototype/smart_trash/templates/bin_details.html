@@ -7,10 +7,20 @@
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
       <h1 class="display-4" style="text-align:center;">{{ bin.name }}</h1>
+      
       {% if bin_status %}
         <br>
         <h3 class="display-10" style="text-align:center;"><b>LOTAÇÃO: </b><span id="bin_status_span">{{ bin_status }}%</span></h1>
       {% endif %}
+      <br>
+      
+      <form action="{% url 'update_bin' %}" method="post">
+        {% csrf_token %}
+        <!-- Envia o id do contentor atual-->
+        <input type="hidden" name='bin_id' value="{{ bin.bin_id }}"></input>
+        <center><button type="submit">Atualizar dados contentor</button></center>  
+      </form>
+
     </header>
 
     <script>
